@@ -18,5 +18,5 @@ def main():
 
 
 if __name__ == '__main__':
-    port = int(os.envron.get("PORT"), 5000) 
+    port = int(os.environ.get("PORT"), 5000) 
     main()

@@ -24,7 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '5zbu+93pf&=s(&t0wx$@wq0i@fv_lk*w=i0@z')
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = os.environ.get("DJANGO_DEBUG", '') != 'False'
+#DEBUG = os.environ.get("DJANGO_DEBUG", '') = 'False'
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
 ALLOWED_HOSTS = [ '.herokuapp.com', '127.0.0.1' ]
 

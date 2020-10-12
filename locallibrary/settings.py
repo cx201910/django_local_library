@@ -150,4 +150,4 @@ EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-FROM_EMAIL = '<116220522@umail.ucc.ie>' 
+DEFAULT_FROM_EMAIL = '<116220522@umail.ucc.ie>' 

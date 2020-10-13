@@ -17,6 +17,11 @@ from django.urls import reverse_lazy
 @login_required
 def index(request):
     """View function for home page of site."""
+    subject = 'Thank you for registering to our site' 
+    message = 'it means a world to us'
+    email_from = '116220522@umail.ucc.ie'
+    recipient_list = [ '116220522@umail.ucc.ie', ]
+    send_mail(subject, message, email_from, recipient_list)
 
     # Generate counts of some of the main project
     num_books = Book.objects.all().count()
@@ -147,5 +152,3 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books') 
     permission_required = 'catalog.can_mark_returned'
-
-

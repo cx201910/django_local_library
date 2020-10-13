@@ -15,8 +15,6 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-    from django.core.mail import send_mail
-    send_mail('Example Subject', 'Example message', '116220522@umail.ucc.ie', ['116220522@umail.ucc.ie'])
 
 if __name__ == '__main__':
     main() 

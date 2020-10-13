@@ -20,7 +20,7 @@ def index(request):
     """View function for home page of site."""
     subject = 'Thank you for registering to our site' 
     message = 'it means a world to us'
-    email_from = '116220522@umail.ucc.ie'
+    email_from = 'shuralex2@gmail.com'
     recipient_list = [ '116220522@umail.ucc.ie', ]
     send_mail(subject, message, email_from, recipient_list)
 

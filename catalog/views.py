@@ -130,26 +130,13 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('authors')
     permission_required = 'catalog.can_mark_returned'
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 class BookCreate(PermissionRequiredMixin, CreateView):
     model = Book
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
-
-class BookUpdate(PermissionRequiredMixin, UpdateView):
-    model = Book
-    fields = '__all__'
-    permission_required = 'catalog.can_mark_returned'
-
-#from django.core.mail import send_mail
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
-
-class BookDelete(PermissionRequiredMixin, DeleteView):
-    model = Book
-    success_url = reverse_lazy('books') 
-    permission_required = 'catalog.can_mark_returned'
-#    send_mail('Subject here', 'Here is the message.', '116220522@umail.ucc.ie', ['116220522@umail.ucc.ie'], fail_silently=False)
     message = Mail( from_email='116220522@umail.ucc.ie', to_emails='116220522@umail.ucc.ie', subject='Sending with Twilio SendGrid is Fun', html_content='<strong>and easy to do anywhere, even with Python</strong>')
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
@@ -160,6 +147,19 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
     except Exception as e:
         print('hello')
 
+
+class BookUpdate(PermissionRequiredMixin, UpdateView):
+    model = Book
+    fields = '__all__'
+    permission_required = 'catalog.can_mark_returned'
+
+#from django.core.mail import send_mail
+
+class BookDelete(PermissionRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('books') 
+    permission_required = 'catalog.can_mark_returned'
+#    send_mail('Subject here', 'Here is the message.', '116220522@umail.ucc.ie', ['116220522@umail.ucc.ie'], fail_silently=False)
 
 
 

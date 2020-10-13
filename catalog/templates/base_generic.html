@@ -26,7 +26,7 @@
             <li><a href="{% url 'logout' %}?next={% url 'index' %}">Logout</a></li>
 
           {% else %}
-            <li><a href="{% url 'login'%}?next={% url 'index' %}">Login</a></li>
+          <li><a href="{% url 'login'%}?next={% url 'index' %}">Login</a></li>
           {% endif %}
         </ul>
         {% if perms.catalog.can_mark_returned %}

@@ -141,13 +141,13 @@ class BookUpdate(PermissionRequiredMixin, UpdateView):
     fields = '__all__'
     permission_required = 'catalog.can_mark_returned'
 
-from django.core.mail import send_mail
+#from django.core.mail import send_mail
 
 class BookDelete(PermissionRequiredMixin, DeleteView):
     model = Book
     success_url = reverse_lazy('books') 
     permission_required = 'catalog.can_mark_returned'
-    send_mail('Subject here', 'Here is the message.', '116220522@umail.ucc.ie', ['116220522@umail.ucc.ie'], fail_silently=False)
+#    send_mail('Subject here', 'Here is the message.', '116220522@umail.ucc.ie', ['116220522@umail.ucc.ie'], fail_silently=False)
 
 
 

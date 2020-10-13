@@ -144,7 +144,7 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER ') # this is exactly the value 'apikey'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # this is exactly the value 'apikey'
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

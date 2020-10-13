@@ -149,6 +149,7 @@ class BookDelete(PermissionRequiredMixin, DeleteView):
 
 
 
-#from django.core.mail import send_mail
+from django.core.mail import send_mail
 
-#send_mail('Subject here', 'Here is the message.', 'from@example.com', ['to@example.com'], fail_silently=False)
+send_mail('Subject here', 'Here is the message.', '116220522@umail.ucc.ie',
+        ['116220522@umail.ucc.ie'], fail_silently=False)

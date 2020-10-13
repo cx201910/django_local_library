@@ -13,6 +13,7 @@ from django.urls import reverse
 from catalog.forms import RenewBookForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.core.mail import send_mail
 # Create your views here
 @login_required
 def index(request):

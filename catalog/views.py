@@ -18,11 +18,7 @@ from django.core.mail import send_mail
 @login_required
 def index(request):
     """View function for home page of site."""
-    subject = 'Thank you for registering to our site' 
-    message = 'it means a world to us'
-    email_from = 'shuralex2@gmail.com'
-    recipient_list = [ '116220522@umail.ucc.ie', ]
-    send_mail(subject, message, email_from, recipient_list)
+    send_mail('Example Subject', 'Example message', 'shuralex2@gmail.com', ['116220522@umail.ucc.ie'])
 
     # Generate counts of some of the main project
     num_books = Book.objects.all().count()

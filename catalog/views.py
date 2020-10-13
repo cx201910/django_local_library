@@ -13,13 +13,11 @@ from django.urls import reverse
 from catalog.forms import RenewBookForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
+
 # Create your views here
 @login_required
 def index(request):
     """View function for home page of site."""
-    send_mail('Example Subject', 'Example message', 'shuralex2@gmail.com', ['116220522@umail.ucc.ie'])
-
     # Generate counts of some of the main project
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()

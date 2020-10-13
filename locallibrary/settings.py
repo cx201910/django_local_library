@@ -142,12 +142,16 @@ DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Set for gmail smtp to send emails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') # this is exactly the value 'apikey'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
 
 # Set for SendGrid to send emails
 #SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
@@ -157,5 +161,5 @@ EMAIL_USE_TLS = True
 #EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 #EMAIL_PORT = 587
 #EMAIL_USE_TLS = True
-#DEFAULT_FROM_EMAIL = 
+#DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 

@@ -8,16 +8,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm, SignupForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from .tokens import user_activation_token
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 # Create your views here
 @login_required
 def index(request):
     """View function for home page of site."""
+
     # Generate counts of some of the main project
     num_books = Book.objects.all().count()
     num_instances = BookInstance.objects.all().count()
@@ -113,37 +120,62 @@ def renew_book_librarian(request, pk):
     }
     return render(request, 'catalog/book_renew_librarian.html', context=context)
 
-class AuthorCreate(PermissionRequiredMixin, CreateView):
+class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
     initial = {'date_of_death': '05/01/2018'}
-    permission_required = 'catalog.can_mark_returned'
 
-class AuthorUpdate(PermissionRequiredMixin, UpdateView):
+class AuthorUpdate(UpdateView):
     model = Author
     fields = ['first_name', 'last_name', 'date_of_birth', 'date_of_death']
-    permission_required = 'catalog.can_mark_returned'
 
-
-class AuthorDelete(PermissionRequiredMixin, DeleteView):
+class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
-    permission_required = 'catalog.can_mark_returned'
 
 
-class BookCreate(PermissionRequiredMixin, CreateView):
-    model = Book
-    fields = '__all__'
-    permission_required = 'catalog.can_mark_returned'
+def user_activation_sent(request):
+    return render(request, 'user_activation_sent.html')
 
+def user_activate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    # checking if the user exists, if the token is valid.
+    if user is not None and user_activation_token.check_token(user, token): 
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return  HttpResponseRedirect(reverse('index'))
+    else:
+        return render(request, 'user_activation_invalid.html')
 
-class BookUpdate(PermissionRequiredMixin, UpdateView):
-    model = Book
-    fields = '__all__'
-    permission_required = 'catalog.can_mark_returned'
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user=form.save()
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            user.email = form.cleaned_data.get('email')
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            subject = 'Please activate your user account'
+            # Load a template like get_template() and call its render() method
+            # immediately.
+            message = render_to_string('user_activation_email.html', {
+                'User': user,
+                'protocol': request.build_absolute_uri('/')[:-1].strip("/"),
+                'Domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': user_activation_token.make_token(user),
+                })
+            user.email_user(subject, message)
+            return HttpResponseRedirect(reverse('user_activation_sent'))
+    else:
+        form = SignupForm()
+    return  render(request, 'signup.html', context={'form': form}) 
 
-
-class BookDelete(PermissionRequiredMixin, DeleteView):
-    model = Book
-    success_url = reverse_lazy('books') 
-    permission_required = 'catalog.can_mark_returned'

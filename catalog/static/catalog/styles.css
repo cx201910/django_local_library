@@ -1,0 +1,17 @@
+body {
+	background-color: powderblue;
+	margin-top: 50px;	
+}
+.sidebar-nav {
+	margin-top: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar-nav li a {
+	color: gray;
+}
+
+p a {
+	color: dodgerblue;
+}

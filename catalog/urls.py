@@ -1,6 +1,7 @@
 from django.urls import path, include
 from . import views
-
+from rest_framework import routers
+from .views import BookViewSet
 urlpatterns = [
         path('', views.index, name='index'),
         path('books/', views.BookListView.as_view(), name='books'),
@@ -43,3 +44,21 @@ urlpatterns += [
         path('book/<int:pk>/delete/', views.BookDelete.as_view(),
             name='book_delete'),
 ]
+
+
+#router = routers.DefaultRouter()
+#router.register(r'allbooks', views.BookViewSet)
+
+allbook = BookViewSet.as_view({
+    'get': 'list', 
+})
+
+urlpatterns += [
+        path('allbooks/', allbook, name='allbook')
+]
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browsable API.
+
+urlpatterns += [
+        path('api-auth/', include('rest_framework.urls', namespace='rest_framwork'))
+] 

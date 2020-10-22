@@ -20,6 +20,10 @@ from django.utils.encoding import force_bytes
 from .tokens import user_activation_token
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from rest_framework import viewsets
+from rest_framework import permissions
+from .serializers import BookSerializer
+
 # Create your views here
 @login_required
 def index(request):
@@ -196,3 +200,8 @@ def signup(request):
         form = SignupForm()
     return  render(request, 'signup.html', context={'form': form}) 
 
+class BookViewSet(viewsets.ModelViewSet):
+    """API endpoint that allows users to be viewed or edited."""
+    queryset = Book.objects.all().order_by('id')
+    serializer_class = BookSerializer
+    permission_classes = [permissions.IsAuthenticated] 
